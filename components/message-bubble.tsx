@@ -1,7 +1,7 @@
 import { Message } from '@/lib/types';
 import { format } from 'date-fns';
 import Image from 'next/image';
-import { FiCheckCircle, FiDownload } from 'react-icons/fi';
+import { FiCheckCircle, FiDownload, FiCheck } from 'react-icons/fi';
 import Avatar from './avatar';
 
 interface MessageBubbleProps {
@@ -11,7 +11,7 @@ interface MessageBubbleProps {
 
 export default function MessageBubble({ message, isSender }: MessageBubbleProps) {
   const isImage = message.attachment_url?.match(/\.(jpeg|jpg|gif|png)$/i);
-  const time = format(new Date(message.created_at), 'h:mm a');
+  const time = format(new Date(message.created_at), 'HH:mm');
   
   // Determine file type icon and name for non-image attachments
   const getFileInfo = () => {
@@ -30,9 +30,10 @@ export default function MessageBubble({ message, isSender }: MessageBubbleProps)
   const fileInfo = message.attachment_url ? getFileInfo() : null;
 
   return (
-    <div className={`flex mb-4 ${isSender ? 'justify-end' : 'justify-start'}`}>
+    <div className={`flex mb-3 ${isSender ? 'justify-end' : 'justify-start'}`}>
+      {/* Avatar for received messages */}
       {!isSender && (
-        <div className="mr-2 self-end mb-1">
+        <div className="mr-3 self-end mb-1">
           <Avatar 
             name={message.sender?.name || 'User'} 
             imageUrl={message.sender?.avatar_url}
@@ -41,22 +42,34 @@ export default function MessageBubble({ message, isSender }: MessageBubbleProps)
         </div>
       )}
       
-      <div className="max-w-[70%]">
+      <div className={`max-w-[70%] ${isSender ? 'items-end' : 'items-start'} flex flex-col`}>
+        {/* Sender name for received messages */}
+        {!isSender && message.sender?.name && (
+          <span className="text-xs text-muted-foreground mb-1 ml-3">
+            {message.sender.name}
+          </span>
+        )}
+        
+        {/* Message bubble */}
         <div 
-          className={`message-bubble ${
+          className={`message-bubble relative ${
             isSender ? 'sent' : 'received'
           }`}
         >
           {/* Message text content */}
-          {message.content && <p>{message.content}</p>}
+          {message.content && (
+            <p className="text-sm leading-relaxed whitespace-pre-wrap">
+              {message.content}
+            </p>
+          )}
           
           {/* Image attachment */}
           {message.attachment_url && isImage && (
-            <div className="mt-2">
+            <div className={`${message.content ? 'mt-2' : ''}`}>
               <img 
                 src={message.attachment_url} 
                 alt="Attachment" 
-                className="max-w-full rounded-md"
+                className="max-w-full max-h-64 rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
                 onClick={() => window.open(message.attachment_url, '_blank')}
               />
             </div>
@@ -64,38 +77,58 @@ export default function MessageBubble({ message, isSender }: MessageBubbleProps)
           
           {/* Non-image attachment */}
           {message.attachment_url && !isImage && fileInfo && (
-            <div className="mt-2">
+            <div className={`${message.content ? 'mt-2' : ''}`}>
               <a 
                 href={message.attachment_url} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="flex items-center p-2 bg-white bg-opacity-10 rounded-md"
+                className={`flex items-center p-3 rounded-lg transition-colors ${
+                  isSender 
+                    ? 'bg-white bg-opacity-20 hover:bg-opacity-30' 
+                    : 'bg-white border border-border hover:bg-gray-50'
+                }`}
               >
-                <div className="flex-1 truncate pr-2">
+                <div className="flex-1 truncate pr-3">
                   <p className="text-sm font-medium">{fileInfo.name}</p>
-                  <p className="text-xs opacity-75">{fileInfo.ext?.toUpperCase()}</p>
+                  <p className="text-xs opacity-75">{fileInfo.ext?.toUpperCase()} file</p>
                 </div>
-                <FiDownload size={18} />
+                <FiDownload size={16} className="opacity-75" />
               </a>
             </div>
           )}
-        </div>
-        
-        <div 
-          className={`flex items-center text-xs text-gray-500 mt-1 ${
-            isSender ? 'justify-end' : 'justify-start'
-          }`}
-        >
-          <span>{time}</span>
           
-          {isSender && (
-            <div className="ml-1">
-              <FiCheckCircle 
-                size={12} 
-                className={message.delivered ? 'text-primary' : 'text-gray-400'} 
-              />
-            </div>
-          )}
+          {/* Message metadata */}
+          <div 
+            className={`flex items-center gap-1 mt-1 ${
+              isSender ? 'justify-end' : 'justify-start'
+            }`}
+          >
+            <span className={`text-xs ${
+              isSender ? 'text-white text-opacity-70' : 'text-muted-foreground'
+            }`}>
+              {time}
+            </span>
+            
+            {/* Read receipts for sent messages */}
+            {isSender && (
+              <div className="flex">
+                <FiCheck 
+                  size={14} 
+                  className={`${
+                    message.delivered 
+                      ? 'text-white text-opacity-70' 
+                      : 'text-white text-opacity-50'
+                  }`} 
+                />
+                {message.delivered && (
+                  <FiCheck 
+                    size={14} 
+                    className="text-white text-opacity-70 -ml-2" 
+                  />
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

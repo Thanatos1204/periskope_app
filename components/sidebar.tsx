@@ -6,82 +6,88 @@ import {
   FiHome, 
   FiMessageSquare, 
   FiUsers, 
-  FiPieChart, 
+  FiBarChart, 
   FiSettings, 
   FiLogOut,
-  FiHelpCircle
+  FiHelpCircle,
+  FiDatabase,
+  FiTrendingUp,
+  FiBell,
+  FiGrid
 } from 'react-icons/fi';
 
 export default function Sidebar() {
   const { signOut } = useAuth();
   const [activeItem, setActiveItem] = useState('chats');
 
+  const navigationItems = [
+    { id: 'home', icon: FiHome, label: 'Home' },
+    { id: 'chats', icon: FiMessageSquare, label: 'Chats' },
+    { id: 'contacts', icon: FiUsers, label: 'Contacts' },
+    { id: 'analytics', icon: FiBarChart, label: 'Analytics' },
+    { id: 'data', icon: FiDatabase, label: 'Data' },
+    { id: 'trends', icon: FiTrendingUp, label: 'Trends' },
+    { id: 'notifications', icon: FiBell, label: 'Notifications' },
+    { id: 'apps', icon: FiGrid, label: 'Apps' },
+  ];
+
+  const bottomItems = [
+    { id: 'help', icon: FiHelpCircle, label: 'Help' },
+    { id: 'settings', icon: FiSettings, label: 'Settings' },
+  ];
+
   return (
-    <aside className="w-14 bg-white border-r border-gray-200 flex flex-col items-center py-4">
+    <aside className="sidebar w-14 flex flex-col items-center py-4">
+      {/* Logo */}
       <div className="mb-6">
-        <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white font-bold">
+        <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white font-bold text-sm">
           P
         </div>
       </div>
       
-      <nav className="flex-1 flex flex-col items-center space-y-4">
-        <button 
-          className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-            activeItem === 'home' ? 'bg-gray-100 text-primary' : 'text-gray-500 hover:bg-gray-100'
-          }`}
-          onClick={() => setActiveItem('home')}
-        >
-          <FiHome size={20} />
-        </button>
-        
-        <button 
-          className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-            activeItem === 'chats' ? 'bg-gray-100 text-primary' : 'text-gray-500 hover:bg-gray-100'
-          }`}
-          onClick={() => setActiveItem('chats')}
-        >
-          <FiMessageSquare size={20} />
-        </button>
-        
-        <button 
-          className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-            activeItem === 'contacts' ? 'bg-gray-100 text-primary' : 'text-gray-500 hover:bg-gray-100'
-          }`}
-          onClick={() => setActiveItem('contacts')}
-        >
-          <FiUsers size={20} />
-        </button>
-        
-        <button 
-          className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-            activeItem === 'analytics' ? 'bg-gray-100 text-primary' : 'text-gray-500 hover:bg-gray-100'
-          }`}
-          onClick={() => setActiveItem('analytics')}
-        >
-          <FiPieChart size={20} />
-        </button>
+      {/* Main Navigation */}
+      <nav className="flex-1 flex flex-col items-center space-y-3">
+        {navigationItems.map((item) => {
+          const Icon = item.icon;
+          return (
+            <button 
+              key={item.id}
+              className={`sidebar-item ${activeItem === item.id ? 'active' : ''}`}
+              onClick={() => setActiveItem(item.id)}
+              title={item.label}
+            >
+              <Icon size={18} />
+            </button>
+          );
+        })}
       </nav>
       
-      <div className="mt-auto flex flex-col items-center space-y-4">
-        <button 
-          className="w-10 h-10 rounded-lg flex items-center justify-center text-gray-500 hover:bg-gray-100"
-          onClick={() => {}}
-        >
-          <FiHelpCircle size={20} />
-        </button>
+      {/* Bottom Actions */}
+      <div className="mt-auto flex flex-col items-center space-y-3">
+        {bottomItems.map((item) => {
+          const Icon = item.icon;
+          return (
+            <button 
+              key={item.id}
+              className="sidebar-item"
+              onClick={() => {
+                if (item.id === 'settings') {
+                  setActiveItem(item.id);
+                }
+              }}
+              title={item.label}
+            >
+              <Icon size={18} />
+            </button>
+          );
+        })}
         
         <button 
-          className="w-10 h-10 rounded-lg flex items-center justify-center text-gray-500 hover:bg-gray-100"
-          onClick={() => {}}
-        >
-          <FiSettings size={20} />
-        </button>
-        
-        <button 
-          className="w-10 h-10 rounded-lg flex items-center justify-center text-gray-500 hover:bg-gray-100"
+          className="sidebar-item"
           onClick={() => signOut()}
+          title="Sign Out"
         >
-          <FiLogOut size={20} />
+          <FiLogOut size={18} />
         </button>
       </div>
     </aside>
