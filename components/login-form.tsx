@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useAuth } from '@/lib/auth-context';
-import { FiMail, FiLock } from 'react-icons/fi';
+import { FiMail, FiLock, FiArrowLeft, FiCheck } from 'react-icons/fi';
 
 export default function LoginForm() {
   const { signIn, verifyOTP } = useAuth();
@@ -34,7 +34,7 @@ export default function LoginForm() {
       if (error) {
         setError(error.message);
       } else {
-        setSuccess('Verification code sent! Check your email.');
+        setSuccess('Verification code sent to your email');
         setShowOtpInput(true);
       }
     } catch (err: any) {
@@ -51,7 +51,7 @@ export default function LoginForm() {
     setLoading(true);
 
     if (!otp || otp.length < 6) {
-      setError('Please enter a valid OTP');
+      setError('Please enter a valid 6-digit code');
       setLoading(false);
       return;
     }
@@ -72,101 +72,162 @@ export default function LoginForm() {
     }
   };
 
+  const handleBack = () => {
+    setShowOtpInput(false);
+    setOtp('');
+    setError(null);
+    setSuccess(null);
+  };
+
   return (
     <div className="space-y-6">
+      {/* Status Messages */}
       {error && (
-        <div className="p-3 rounded-md bg-red-50 border border-red-200 text-red-600 text-sm">
-          {error}
+        <div className="flex items-start gap-3 p-4 rounded-lg bg-red-50 border border-red-200">
+          <div className="w-5 h-5 rounded-full bg-red-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <div className="w-2 h-2 rounded-full bg-white"></div>
+          </div>
+          <div>
+            <h4 className="text-sm font-medium text-red-800">Error</h4>
+            <p className="text-sm text-red-700 mt-1">{error}</p>
+          </div>
         </div>
       )}
       
       {success && (
-        <div className="p-3 rounded-md bg-green-50 border border-green-200 text-green-600 text-sm">
-          {success}
+        <div className="flex items-start gap-3 p-4 rounded-lg bg-green-50 border border-green-200">
+          <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <FiCheck size={12} className="text-white" />
+          </div>
+          <div>
+            <h4 className="text-sm font-medium text-green-800">Success</h4>
+            <p className="text-sm text-green-700 mt-1">{success}</p>
+          </div>
         </div>
       )}
 
       {!showOtpInput ? (
-        <form onSubmit={handleSendOTP} className="space-y-4">
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+        // Email Input Form
+        <form onSubmit={handleSendOTP} className="space-y-6">
+          <div className="space-y-2">
+            <label htmlFor="email" className="block text-sm font-medium text-foreground">
               Email Address
             </label>
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FiMail className="h-5 w-5 text-gray-400" />
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <FiMail className="h-5 w-5 text-muted-foreground" />
               </div>
               <input
                 id="email"
                 type="email"
-                placeholder="you@example.com"
+                placeholder="Enter your business email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-10 px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                className="w-full pl-12 pr-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors text-foreground placeholder:text-muted-foreground"
                 required
                 disabled={loading}
               />
             </div>
-            <p className="mt-1 text-xs text-gray-500">
-              We'll send a verification code to this email
+            <p className="text-xs text-muted-foreground">
+              We'll send a 6-digit verification code to this email address
             </p>
           </div>
+          
           <button
             type="submit"
-            disabled={loading}
-            className="w-full px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={loading || !email}
+            className="w-full px-4 py-3 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2"
           >
-            {loading ? 'Sending...' : 'Send Code'}
+            {loading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                Sending code...
+              </>
+            ) : (
+              'Send verification code'
+            )}
           </button>
         </form>
       ) : (
-        <form onSubmit={handleVerifyOTP} className="space-y-4">
-          <div>
-            <label htmlFor="otp" className="block text-sm font-medium text-gray-700 mb-1">
+        // OTP Verification Form
+        <form onSubmit={handleVerifyOTP} className="space-y-6">
+          {/* Back button */}
+          <button
+            type="button"
+            onClick={handleBack}
+            disabled={loading}
+            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <FiArrowLeft size={16} />
+            Back to email
+          </button>
+          
+          <div className="space-y-2">
+            <label htmlFor="otp" className="block text-sm font-medium text-foreground">
               Verification Code
             </label>
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FiLock className="h-5 w-5 text-gray-400" />
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <FiLock className="h-5 w-5 text-muted-foreground" />
               </div>
               <input
                 id="otp"
                 type="text"
-                placeholder="123456"
+                placeholder="Enter 6-digit code"
                 value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                className="w-full pl-10 px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                className="w-full pl-12 pr-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors text-foreground placeholder:text-muted-foreground text-center text-lg font-mono tracking-widest"
                 required
                 disabled={loading}
                 maxLength={6}
               />
             </div>
-            <p className="mt-1 text-xs text-gray-500">
-              Enter the 6-digit code sent to {email}
-            </p>
+            <div className="flex items-center justify-between">
+              <p className="text-xs text-muted-foreground">
+                Code sent to <span className="font-medium text-foreground">{email}</span>
+              </p>
+              <button
+                type="button"
+                onClick={() => handleSendOTP({ preventDefault: () => {} } as React.FormEvent)}
+                disabled={loading}
+                className="text-xs text-primary hover:underline disabled:opacity-50"
+              >
+                Resend code
+              </button>
+            </div>
           </div>
+          
           <button
             type="submit"
-            disabled={loading}
-            className="w-full px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={loading || otp.length < 6}
+            className="w-full px-4 py-3 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2"
           >
-            {loading ? 'Verifying...' : 'Verify Code'}
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setShowOtpInput(false);
-              setOtp('');
-              setError(null);
-              setSuccess(null);
-            }}
-            disabled={loading}
-            className="w-full px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Back
+            {loading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                Verifying...
+              </>
+            ) : (
+              'Verify and sign in'
+            )}
           </button>
         </form>
       )}
+      
+      {/* Additional help */}
+      <div className="pt-4 border-t border-border">
+        <div className="text-center">
+          <p className="text-xs text-muted-foreground mb-2">
+            Having trouble signing in?
+          </p>
+          <a 
+            href="#" 
+            className="text-xs text-primary hover:underline font-medium"
+          >
+            Contact your administrator
+          </a>
+        </div>
+      </div>
     </div>
   );
 }

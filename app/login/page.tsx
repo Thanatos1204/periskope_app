@@ -1,87 +1,151 @@
 import LoginForm from '@/components/login-form';
-import Image from 'next/image';
+import { 
+  FiMessageSquare, 
+  FiUsers, 
+  FiShield, 
+  FiZap,
+  FiGlobe,
+  FiTrendingUp
+} from 'react-icons/fi';
 
 export default function LoginPage() {
   return (
-    <main className="flex min-h-screen">
+    <main className="flex min-h-screen bg-background">
       {/* Left side - Login form */}
-      <div className="w-full md:w-1/2 flex flex-col items-center justify-center px-6 py-8">
+      <div className="w-full lg:w-5/12 flex flex-col items-center justify-center px-6 py-8 lg:px-12">
         <div className="w-full max-w-md">
-          <div className="flex items-center mb-8">
-            <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-white font-bold mr-3">
+          {/* Logo and branding */}
+          <div className="flex items-center mb-10">
+            <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center text-white font-bold text-lg mr-4">
               P
             </div>
-            <h1 className="text-2xl font-bold text-gray-900">Periskope Chat</h1>
+            <div>
+              <h1 className="text-2xl font-bold text-foreground">Periskope Chat</h1>
+              <p className="text-sm text-muted-foreground">Business messaging platform</p>
+            </div>
           </div>
           
-          <div className="mb-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">Sign in to Periskope</h2>
-            <p className="text-gray-600">Enter your email to receive a login code</p>
+          {/* Welcome section */}
+          <div className="mb-8">
+            <h2 className="text-2xl font-semibold text-foreground mb-3">Welcome back</h2>
+            <p className="text-muted-foreground leading-relaxed">
+              Sign in to your account to access your business conversations and team communications.
+            </p>
           </div>
           
+          {/* Login form */}
           <LoginForm />
           
-          <div className="mt-8 text-center text-sm text-gray-500">
-            <p>By signing in, you agree to our <a href="#" className="text-primary hover:underline">Terms of Service</a> and <a href="#" className="text-primary hover:underline">Privacy Policy</a>.</p>
+          {/* Footer links */}
+          <div className="mt-8 space-y-4">
+            <div className="text-center text-sm text-muted-foreground">
+              <p>
+                By signing in, you agree to our{' '}
+                <a href="#" className="text-primary hover:underline font-medium">
+                  Terms of Service
+                </a>{' '}
+                and{' '}
+                <a href="#" className="text-primary hover:underline font-medium">
+                  Privacy Policy
+                </a>
+              </p>
+            </div>
+            
+            <div className="text-center">
+              <p className="text-sm text-muted-foreground">
+                Need help?{' '}
+                <a href="#" className="text-primary hover:underline font-medium">
+                  Contact support
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </div>
       
-      {/* Right side - Decorative background */}
-      <div className="hidden md:block md:w-1/2 bg-gradient-to-br from-primary/90 to-primary relative">
-        <div className="absolute inset-0 flex items-center justify-center p-10">
-          <div className="bg-white bg-opacity-10 p-8 rounded-xl max-w-lg text-black">
-            <h2 className="text-2xl font-bold mb-4">Connect with your team in real-time</h2>
-            <p className="mb-6">Periskope Chat helps your team collaborate efficiently with organized conversations, file sharing, and powerful search capabilities.</p>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex items-start">
-                <div className="bg-white bg-opacity-20 p-2 rounded-lg mr-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M18 10c0 4.418-3.582 8-8 8s-8-3.582-8-8 3.582-8 8-8 8 3.582 8 8zm-8-5a1 1 0 00-1 1v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="font-medium mb-1">Real-time messaging</h3>
-                  <p className="text-sm opacity-80">Instant communication with delivery receipts</p>
-                </div>
+      {/* Right side - Business messaging showcase */}
+      <div className="hidden lg:flex lg:w-7/12 bg-gradient-to-br from-primary via-primary to-green-600 relative overflow-hidden">
+        {/* Background pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-20 left-20 w-32 h-32 rounded-full border-2 border-white"></div>
+          <div className="absolute top-40 right-32 w-24 h-24 rounded-full border border-white"></div>
+          <div className="absolute bottom-32 left-40 w-20 h-20 rounded-full border border-white"></div>
+          <div className="absolute bottom-20 right-20 w-16 h-16 rounded-full border-2 border-white"></div>
+        </div>
+        
+        {/* Main content */}
+        <div className="relative flex flex-col items-center justify-center p-12 text-white w-full">
+          <div className="max-w-lg text-center mb-12">
+            <h2 className="text-4xl font-bold mb-6">
+              Professional Business Messaging
+            </h2>
+            <p className="text-xl text-white/90 leading-relaxed">
+              Connect with customers, manage team communications, and grow your business with our comprehensive messaging platform.
+            </p>
+          </div>
+          
+          {/* Features grid */}
+          <div className="grid grid-cols-2 gap-8 max-w-2xl w-full">
+            <div className="flex flex-col items-center text-center p-6 bg-white/10 rounded-2xl backdrop-blur-sm border border-white/20">
+              <div className="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center mb-4">
+                <FiMessageSquare size={28} />
               </div>
-              <div className="flex items-start">
-                <div className="bg-white bg-opacity-20 p-2 rounded-lg mr-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="font-medium mb-1">File sharing</h3>
-                  <p className="text-sm opacity-80">Share documents, images and more</p>
-                </div>
+              <h3 className="font-semibold text-lg mb-2">Real-time Messaging</h3>
+              <p className="text-sm text-white/80">
+                Instant communication with delivery receipts and read confirmations
+              </p>
+            </div>
+            
+            <div className="flex flex-col items-center text-center p-6 bg-white/10 rounded-2xl backdrop-blur-sm border border-white/20">
+              <div className="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center mb-4">
+                <FiUsers size={28} />
               </div>
-              <div className="flex items-start">
-                <div className="bg-white bg-opacity-20 p-2 rounded-lg mr-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="font-medium mb-1">Group chats</h3>
-                  <p className="text-sm opacity-80">Collaborate with your entire team</p>
-                </div>
+              <h3 className="font-semibold text-lg mb-2">Team Collaboration</h3>
+              <p className="text-sm text-white/80">
+                Group chats, channels, and organized team communications
+              </p>
+            </div>
+            
+            <div className="flex flex-col items-center text-center p-6 bg-white/10 rounded-2xl backdrop-blur-sm border border-white/20">
+              <div className="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center mb-4">
+                <FiShield size={28} />
               </div>
-              <div className="flex items-start">
-                <div className="bg-white bg-opacity-20 p-2 rounded-lg mr-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="font-medium mb-1">Smart search</h3>
-                  <p className="text-sm opacity-80">Find messages and files instantly</p>
-                </div>
+              <h3 className="font-semibold text-lg mb-2">Enterprise Security</h3>
+              <p className="text-sm text-white/80">
+                End-to-end encryption and advanced security protocols
+              </p>
+            </div>
+            
+            <div className="flex flex-col items-center text-center p-6 bg-white/10 rounded-2xl backdrop-blur-sm border border-white/20">
+              <div className="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center mb-4">
+                <FiTrendingUp size={28} />
               </div>
+              <h3 className="font-semibold text-lg mb-2">Business Analytics</h3>
+              <p className="text-sm text-white/80">
+                Insights and analytics to optimize your communications
+              </p>
+            </div>
+          </div>
+          
+          {/* Statistics */}
+          <div className="mt-12 flex items-center gap-12 text-center">
+            <div>
+              <div className="text-3xl font-bold">50K+</div>
+              <div className="text-sm text-white/80">Active Users</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold">99.9%</div>
+              <div className="text-sm text-white/80">Uptime</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold">24/7</div>
+              <div className="text-sm text-white/80">Support</div>
             </div>
           </div>
         </div>
-        <div className="absolute bottom-6 right-6 text-white text-sm opacity-70">
+        
+        {/* Footer */}
+        <div className="absolute bottom-6 right-6 text-white/70 text-sm">
           © 2025 Periskope. All rights reserved.
         </div>
       </div>

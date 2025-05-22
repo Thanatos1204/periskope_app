@@ -4,7 +4,16 @@ import { useState } from 'react';
 import { useAuth } from '@/lib/auth-context';
 import { useChat } from '@/lib/chat-context';
 import { createClient } from '@/utils/supabase/client';
-import { FiSearch, FiX, FiUser, FiUsers, FiMail } from 'react-icons/fi';
+import { 
+  FiSearch, 
+  FiX, 
+  FiUser, 
+  FiUsers, 
+  FiMail,
+  FiCheck,
+  FiPlus,
+  FiLoader
+} from 'react-icons/fi';
 import Avatar from './avatar';
 
 interface AddChatModalProps {
@@ -223,41 +232,45 @@ export default function AddChatModal({ isOpen, onClose }: AddChatModalProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
-        <div className="flex items-center justify-between p-4 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-900">New Chat</h2>
+    <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-background rounded-xl shadow-2xl w-full max-w-lg border border-border animate-fade-in">
+        {/* Header */}
+        <div className="flex items-center justify-between p-6 border-b border-border">
+          <div>
+            <h2 className="text-xl font-semibold text-white">New Conversation</h2>
+            <p className="text-sm text-white mt-1">Start a chat with your team members</p>
+          </div>
           <button
             onClick={() => {
               onClose();
               resetModal();
             }}
-            className="p-1 rounded-full hover:bg-gray-100"
+            className="p-2 rounded-lg text-white hover:bg-muted hover:text-white transition-colors"
           >
-            <FiX size={20} className="text-gray-500" />
+            <FiX size={20} />
           </button>
         </div>
 
-        <div className="p-4">
+        <div className="p-6 space-y-6">
           {/* Chat type selector */}
-          <div className="flex mb-4 bg-gray-100 rounded-lg p-1">
+          <div className="flex bg-muted rounded-lg p-1">
             <button
               onClick={() => setChatType('direct')}
-              className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-md text-sm font-medium transition-colors ${
+              className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-md text-sm font-medium transition-all ${
                 chatType === 'direct'
-                  ? 'bg-white text-gray-900 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'bg-background text-white shadow-sm border border-border'
+                  : 'text-white hover:text-white'
               }`}
             >
               <FiUser size={16} />
-              Direct Chat
+              Direct Message
             </button>
             <button
               onClick={() => setChatType('group')}
-              className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-md text-sm font-medium transition-colors ${
+              className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-md text-sm font-medium transition-all ${
                 chatType === 'group'
-                  ? 'bg-white text-gray-900 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'bg-background text-white shadow-sm border border-border'
+                  : 'text-white hover:text-white'
               }`}
             >
               <FiUsers size={16} />
@@ -267,8 +280,8 @@ export default function AddChatModal({ isOpen, onClose }: AddChatModalProps) {
 
           {/* Group name input for group chats */}
           {chatType === 'group' && (
-            <div className="mb-4">
-              <label htmlFor="groupName" className="block text-sm font-medium text-gray-700 mb-1">
+            <div className="space-y-2">
+              <label htmlFor="groupName" className="block text-sm font-medium text-white">
                 Group Name
               </label>
               <input
@@ -277,18 +290,18 @@ export default function AddChatModal({ isOpen, onClose }: AddChatModalProps) {
                 placeholder="Enter group name"
                 value={groupName}
                 onChange={(e) => setGroupName(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors bg-background text-white placeholder:text-white"
               />
             </div>
           )}
 
           {/* Search input */}
-          <div className="mb-4">
-            <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-1">
-              Search Users by Email
+          <div className="space-y-2">
+            <label htmlFor="search" className="block text-sm font-medium text-white">
+              Search Team Members
             </label>
             <div className="relative">
-              <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
+              <FiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white" size={16} />
               <input
                 id="search"
                 type="email"
@@ -296,33 +309,43 @@ export default function AddChatModal({ isOpen, onClose }: AddChatModalProps) {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && searchUsers()}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                className="w-full pl-12 pr-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors bg-background text-white placeholder:text-white"
               />
             </div>
             <button
               onClick={searchUsers}
               disabled={loading || !searchTerm.trim()}
-              className="mt-2 w-full bg-gray-100 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-muted text-white py-2 px-4 rounded-lg hover:bg-muted/80 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
             >
-              {loading ? 'Searching...' : 'Search'}
+              {loading ? (
+                <>
+                  <FiLoader className="animate-spin" size={16} />
+                  Searching...
+                </>
+              ) : (
+                <>
+                  <FiSearch size={16} />
+                  Search Users
+                </>
+              )}
             </button>
           </div>
 
           {/* Selected users for group chat */}
           {chatType === 'group' && selectedUsers.length > 0 && (
-            <div className="mb-4">
-              <p className="text-sm font-medium text-gray-700 mb-2">Selected Users:</p>
+            <div className="space-y-3">
+              <p className="text-sm font-medium text-white">Selected Members ({selectedUsers.length})</p>
               <div className="flex flex-wrap gap-2">
-                {selectedUsers.map((user) => (
+                {selectedUsers.map((selectedUser) => (
                   <div
-                    key={user.id}
-                    className="flex items-center gap-2 bg-primary/10 text-primary px-2 py-1 rounded-full text-sm"
+                    key={selectedUser.id}
+                    className="flex items-center gap-2 bg-primary/10 text-primary px-3 py-2 rounded-full text-sm font-medium border border-primary/20"
                   >
-                    <Avatar name={user.name} imageUrl={user.avatar_url} size="xs" />
-                    <span>{user.name}</span>
+                    <Avatar name={selectedUser.name} imageUrl={selectedUser.avatar_url} size="xs" />
+                    <span>{selectedUser.name}</span>
                     <button
-                      onClick={() => toggleUserSelection(user)}
-                      className="hover:bg-primary/20 rounded-full p-0.5"
+                      onClick={() => toggleUserSelection(selectedUser)}
+                      className="hover:bg-primary/20 rounded-full p-1 transition-colors"
                     >
                       <FiX size={12} />
                     </button>
@@ -332,31 +355,42 @@ export default function AddChatModal({ isOpen, onClose }: AddChatModalProps) {
             </div>
           )}
 
-          {/* Error message */}
+          {/* Status Messages */}
           {error && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md text-red-600 text-sm">
-              {error}
+            <div className="flex items-start gap-3 p-4 rounded-lg bg-red-50 border border-red-200">
+              <div className="w-5 h-5 rounded-full bg-red-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <div className="w-2 h-2 rounded-full bg-white"></div>
+              </div>
+              <div>
+                <h4 className="text-sm font-medium text-red-800">Error</h4>
+                <p className="text-sm text-red-700 mt-1">{error}</p>
+              </div>
             </div>
           )}
 
-          {/* Success message */}
           {success && (
-            <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-md text-green-600 text-sm">
-              {success}
+            <div className="flex items-start gap-3 p-4 rounded-lg bg-green-50 border border-green-200">
+              <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <FiCheck size={12} className="text-white" />
+              </div>
+              <div>
+                <h4 className="text-sm font-medium text-green-800">Success</h4>
+                <p className="text-sm text-green-700 mt-1">{success}</p>
+              </div>
             </div>
           )}
 
           {/* Search results */}
           {searchResults.length > 0 && (
-            <div className="mb-4">
-              <p className="text-sm font-medium text-gray-700 mb-2">Search Results:</p>
-              <div className="max-h-48 overflow-y-auto border border-gray-200 rounded-md">
+            <div className="space-y-3">
+              <p className="text-sm font-medium text-white">Search Results</p>
+              <div className="max-h-60 overflow-y-auto border border-border rounded-lg">
                 {searchResults.map((searchUser) => (
                   <div
                     key={searchUser.id}
-                    className={`p-3 border-b border-gray-100 last:border-b-0 hover:bg-gray-50 cursor-pointer ${
+                    className={`p-4 border-b border-border last:border-b-0 hover:bg-muted cursor-pointer transition-colors ${
                       chatType === 'group' && selectedUsers.find(u => u.id === searchUser.id)
-                        ? 'bg-primary/5'
+                        ? 'bg-primary/5 border-l-2 border-l-primary'
                         : ''
                     }`}
                     onClick={() => {
@@ -368,17 +402,23 @@ export default function AddChatModal({ isOpen, onClose }: AddChatModalProps) {
                     }}
                   >
                     <div className="flex items-center gap-3">
-                      <Avatar name={searchUser.name} imageUrl={searchUser.avatar_url} size="sm" />
+                      <Avatar 
+                        name={searchUser.name} 
+                        imageUrl={searchUser.avatar_url} 
+                        size="md"
+                        showStatus={true}
+                        status="online"
+                      />
                       <div className="flex-1 min-w-0">
-                        <p className="font-medium text-gray-900 truncate">{searchUser.name}</p>
-                        <p className="text-sm text-gray-500 truncate flex items-center gap-1">
+                        <p className="font-medium text-white truncate">{searchUser.name}</p>
+                        <p className="text-sm text-white truncate flex items-center gap-2">
                           <FiMail size={12} />
                           {searchUser.email}
                         </p>
                       </div>
                       {chatType === 'group' && selectedUsers.find(u => u.id === searchUser.id) && (
-                        <div className="w-5 h-5 bg-primary rounded-full flex items-center justify-center">
-                          <FiX size={12} className="text-white" />
+                        <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+                          <FiCheck size={12} className="text-white" />
                         </div>
                       )}
                     </div>
@@ -393,18 +433,35 @@ export default function AddChatModal({ isOpen, onClose }: AddChatModalProps) {
             <button
               onClick={createGroupChat}
               disabled={loading || !groupName.trim() || selectedUsers.length === 0}
-              className="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-primary text-white py-3 px-4 rounded-lg hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2 font-medium"
             >
-              {loading ? 'Creating Group...' : `Create Group (${selectedUsers.length} members)`}
+              {loading ? (
+                <>
+                  <FiLoader className="animate-spin" size={16} />
+                  Creating Group...
+                </>
+              ) : (
+                <>
+                  <FiPlus size={16} />
+                  Create Group ({selectedUsers.length} member{selectedUsers.length !== 1 ? 's' : ''})
+                </>
+              )}
             </button>
           )}
 
           {/* No results message */}
           {!loading && searchTerm && searchResults.length === 0 && (
-            <div className="text-center py-4 text-gray-500">
-              <FiUser size={32} className="mx-auto mb-2 text-gray-300" />
-              <p>No users found with email "{searchTerm}"</p>
-              <p className="text-sm mt-1">Make sure the user has signed up on the platform</p>
+            <div className="text-center py-8">
+              <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
+                <FiUser size={24} className="text-white" />
+              </div>
+              <p className="text-white font-medium mb-1">No users found</p>
+              <p className="text-sm text-white">
+                No users found with email "{searchTerm}"
+              </p>
+              <p className="text-xs text-white mt-2">
+                Make sure the user has an account on the platform
+              </p>
             </div>
           )}
         </div>

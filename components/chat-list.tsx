@@ -6,7 +6,8 @@ import {
   FiSearch, 
   FiFilter, 
   FiSave,
-  FiCheck
+  FiCheck,
+  FiPlus
 } from 'react-icons/fi';
 import ChatItem from './chat-item';
 import ChatFilter from './chat-filter';
@@ -56,6 +57,10 @@ export default function ChatList() {
           <button className="filter-button active">
             <FiCheck size={12} className="mr-1" />
             Filtered
+          </button>
+          <button className="filter-button" onClick={() => setShowAddModal(true)}>
+            <FiPlus size={12} className="mr-1" />
+            Add Chat
           </button>
         </div>
         
