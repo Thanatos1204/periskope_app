@@ -136,7 +136,7 @@ export default function LoginForm() {
           <button
             type="submit"
             disabled={loading || !email}
-            className="w-full px-4 py-3 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2"
+            className="w-full px-4 py-3 bg-[#3ECF73] text-white rounded-lg font-medium hover:bg-[#3ECF73]/90 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2"
           >
             {loading ? (
               <>
@@ -190,7 +190,7 @@ export default function LoginForm() {
                 type="button"
                 onClick={() => handleSendOTP({ preventDefault: () => {} } as React.FormEvent)}
                 disabled={loading}
-                className="text-xs text-primary hover:underline disabled:opacity-50"
+                className="text-xs text-white hover:underline disabled:opacity-50"
               >
                 Resend code
               </button>
@@ -200,7 +200,7 @@ export default function LoginForm() {
           <button
             type="submit"
             disabled={loading || otp.length < 6}
-            className="w-full px-4 py-3 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2"
+            className="w-full px-4 py-3 bg-[#3ECF73] text-white rounded-lg font-medium hover:bg-[#3ECF73]/90 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2"
           >
             {loading ? (
               <>

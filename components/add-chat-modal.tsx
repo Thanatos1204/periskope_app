@@ -339,13 +339,13 @@ export default function AddChatModal({ isOpen, onClose }: AddChatModalProps) {
                 {selectedUsers.map((selectedUser) => (
                   <div
                     key={selectedUser.id}
-                    className="flex items-center gap-2 bg-primary/10 text-primary px-3 py-2 rounded-full text-sm font-medium border border-primary/20"
+                    className="flex items-center gap-2 bg-[#3ECF73]/10 text-primary px-3 py-2 rounded-full text-sm font-medium border border-primary/20"
                   >
                     <Avatar name={selectedUser.name} imageUrl={selectedUser.avatar_url} size="xs" />
                     <span>{selectedUser.name}</span>
                     <button
                       onClick={() => toggleUserSelection(selectedUser)}
-                      className="hover:bg-primary/20 rounded-full p-1 transition-colors"
+                      className="hover:bg-[#3ECF73]/20 rounded-full p-1 transition-colors"
                     >
                       <FiX size={12} />
                     </button>
@@ -390,7 +390,7 @@ export default function AddChatModal({ isOpen, onClose }: AddChatModalProps) {
                     key={searchUser.id}
                     className={`p-4 border-b border-border last:border-b-0 hover:bg-muted cursor-pointer transition-colors ${
                       chatType === 'group' && selectedUsers.find(u => u.id === searchUser.id)
-                        ? 'bg-primary/5 border-l-2 border-l-primary'
+                        ? 'bg-[#3ECF73]/5 border-l-2 border-l-primary'
                         : ''
                     }`}
                     onClick={() => {
@@ -417,7 +417,7 @@ export default function AddChatModal({ isOpen, onClose }: AddChatModalProps) {
                         </p>
                       </div>
                       {chatType === 'group' && selectedUsers.find(u => u.id === searchUser.id) && (
-                        <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+                        <div className="w-6 h-6 bg-[#3ECF73] rounded-full flex items-center justify-center">
                           <FiCheck size={12} className="text-white" />
                         </div>
                       )}
@@ -433,7 +433,7 @@ export default function AddChatModal({ isOpen, onClose }: AddChatModalProps) {
             <button
               onClick={createGroupChat}
               disabled={loading || !groupName.trim() || selectedUsers.length === 0}
-              className="w-full bg-primary text-white py-3 px-4 rounded-lg hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2 font-medium"
+              className="w-full bg-[#3ECF73] text-white py-3 px-4 rounded-lg hover:bg-[#3ECF73]/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2 font-medium"
             >
               {loading ? (
                 <>

@@ -16,7 +16,7 @@ export default function LoginPage() {
         <div className="w-full max-w-md">
           {/* Logo and branding */}
           <div className="flex items-center mb-10">
-            <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center text-white font-bold text-lg mr-4">
+            <div className="w-12 h-12 rounded-xl bg-[#3ECF73] flex items-center justify-center text-white font-bold text-lg mr-4">
               P
             </div>
             <div>

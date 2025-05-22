@@ -40,7 +40,7 @@ export default function Sidebar() {
     <aside className="sidebar w-14 flex flex-col items-center py-4">
       {/* Logo */}
       <div className="mb-6">
-        <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white font-bold text-sm">
+        <div className="w-8 h-8 rounded-lg bg-[#3ECF73] flex items-center justify-center text-white font-bold text-sm">
           P
         </div>
       </div>

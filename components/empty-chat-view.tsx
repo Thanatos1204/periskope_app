@@ -5,7 +5,7 @@ export default function EmptyChatView() {
     <div className="flex-1 flex flex-col items-center justify-center bg-gray-50 p-8">
       {/* Logo and branding */}
       <div className="mb-8">
-        <div className="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center text-white text-2xl font-bold mb-4">
+        <div className="w-16 h-16 rounded-2xl bg-[#3ECF73] flex items-center justify-center text-white text-2xl font-bold mb-4">
           P
         </div>
         <h2 className="text-2xl font-semibold text-foreground text-center">Periskope Chat</h2>
@@ -15,7 +15,7 @@ export default function EmptyChatView() {
       {/* Features grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-2xl w-full mb-8">
         <div className="text-center p-6 bg-white rounded-lg border border-border shadow-sm">
-          <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
+          <div className="w-12 h-12 rounded-full bg-[#3ECF73]/10 flex items-center justify-center mx-auto mb-3">
             <FiMessageSquare size={24} className="text-primary" />
           </div>
           <h3 className="font-medium text-foreground mb-2">Start Conversations</h3>
@@ -25,7 +25,7 @@ export default function EmptyChatView() {
         </div>
         
         <div className="text-center p-6 bg-white rounded-lg border border-border shadow-sm">
-          <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
+          <div className="w-12 h-12 rounded-full bg-[#3ECF73]/10 flex items-center justify-center mx-auto mb-3">
             <FiUsers size={24} className="text-primary" />
           </div>
           <h3 className="font-medium text-foreground mb-2">Team Collaboration</h3>
@@ -35,7 +35,7 @@ export default function EmptyChatView() {
         </div>
         
         <div className="text-center p-6 bg-white rounded-lg border border-border shadow-sm">
-          <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
+          <div className="w-12 h-12 rounded-full bg-[#3ECF73]/10 flex items-center justify-center mx-auto mb-3">
             <FiSearch size={24} className="text-primary" />
           </div>
           <h3 className="font-medium text-foreground mb-2">Smart Search</h3>

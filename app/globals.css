@@ -1,5 +1,49 @@
 @import "tailwindcss";
 
+@theme {
+  --background: 0 0% 100%;
+    --foreground: 0 0% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 11%;
+    --primary: 142 70% 45%; /* WhatsApp Business Green */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 11%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 0 0% 96%;
+    --accent-foreground: 0 0% 11%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 90%;
+    --input: 0 0% 96%;
+    --ring: 142 70% 45%;
+    --radius: 6px;
+
+    /* Custom label colors - matching reference */
+    --demo-label: 45 100% 60%;      /* Orange */
+    --internal-label: 142 70% 45%;   /* Green */
+    --content-label: 217 91% 60%;    /* Blue */
+    --signup-label: 45 93% 58%;      /* Yellow */
+    --dontsend-label: 0 84% 60%;     /* Red */
+
+    /* Sidebar colors */
+    --sidebar-bg: 0 0% 13%;
+    --sidebar-hover: 0 0% 20%;
+    --sidebar-active: 142 70% 45%;
+
+    /* Chat list colors */
+    --chat-item-hover: 0 0% 98%;
+    --chat-item-active: 142 70% 97%;
+    --chat-item-border: 0 0% 95%;
+
+    /* Header colors */
+    --header-bg: 0 0% 100%;
+    --header-border: 0 0% 90%;
+}
+
 /* Theme variables - WhatsApp Business Style */
 @layer base {
   :root {
